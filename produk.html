@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang=""id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewsport" content="width=devise-eidth, initial-scale=1.0"/>
+    <title>Produk UMKM - Smoothi:p </title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.jpeg" alt="Logo Kopi Nusantara" />
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="tentang.html">Tentang Kami</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="galeri.html">Galeri</a></li>
+                <li><a href="kontak.html">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Smoothi:p</h1>
+        <p>UMKM yang menawarkan berbagai varian smoothies alami, memadukan kesegaran buah lokal dengan manfaat kesehatan untuk setiap momen.</p>
+    </header>
+
+    <main>
+        <h2>Produk Unggulan Kami</h2>
+        <p>Berikut daftar produk Smoothi:p yang kami sediakan</p>
+
+        <table border="1" cellspacing="0" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Produk</th>
+                    <th>Ukuran</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mango Smoothies</td>
+                    <td>450ml</td>
+                    <td>Rp 10.000</td>
+                </tr>
+                <tr>
+                    <td>Berry Smoothies</td>
+                    <td>450ml</td>
+                    <td>Rp 15.000</td>
+                </tr>
+                <tr>
+                    <td>Dragon Fruit Smoothies</td>
+                    <td>450ml</td>
+                    <td>Rp 10.000</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center; background-color: #a3f7a3">
+                        Semua harga sudah termasuk PPN
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Profil Produk</h3>
+        <div class="card">
+            <img src="images/smoothie mangga.jpg" alt="Produk UMKM" width="300">
+            <h3>Manggo Smoothies</h3>
+            <p>
+                Menghadirkan rasa manis dengan tekstur lembut dan creamy yang menyegarkan.
+            </p>
+            <h3>Rating Produk: <span id="hasil-rating"></span></h3>
+            <script>
+                let rating = 4;
+
+                if (rating >= 4.5){
+                    document.getElementById("hasi-rating").textContent = "★★★★★ Sangat Disarankan";
+                }else if (rating >= 3){
+                    document.getElementById("hasil-rating").textContent = "★★★ Rekomendasi Biasa";
+                }else{
+                    document.getElementById("hasil-rating").textContent = "★ Tidak Direkomendasikan";
+                }
+            </script>
+        </div>
+
+        <h3>Layanan Unggulan:</h3>
+        <ul id="layanan-list"></ul>
+
+        <script>
+            let layanan = ["Gratis Ongkir", "Bayar di Tempat", "Garansi 30 Hari"];
+
+            layanan.forEach(function(item){
+                let li = document.createElement("li");
+                li.textContent = item;
+                document.getElementById("layanan-list").appendChild(li);
+            });
+        </script>
+
+        <h3>Form Pemesanan</h3>
+        <form onsubmit="return cekForm()">
+            <label for="namProduk">Pilih Produk:</label>
+            <select id="namaProduk">
+                <option value="">-- Pilih Produk: --</option>
+                <option value="Mango Smoothies" data-harga="10000">Mango Smoothies - Rp 10.000</option>
+                <option value="Berry Smoothies" data-harga="10000">Berry Smoothies - Rp 15.000</option>
+                <option value="Dragon Fruit Smoothies" data-harga="10000">Dragon Fruit Smoothies - Rp 10.000</option>
+            </select>
+            <input type="number" id="jumlah" placeholder="Jumlah"><br>
+            <button type="submit">Pesan</button>
+        </form>
+
+        <script>
+            function hitungTotal(harga, jumlah){
+                return harga * jumlah;
+            }
+
+            function cekForm(){
+                let nama = document.getElementById("namaProduk").value.trim();
+                let jumlah = parseInt(document.getElementById("jumlah").value);
+        
+                if (nama === "" || isNaN(jumlah)) {
+                    alert("Semua kolom wajib diisi.");
+                    return false;
+                }
+        
+                if (jumlah <= 0) {
+                    alert("Jumlah harus lebih dari 0");
+                    return false;
+                }
+        
+                let harga = 0;
+                if (nama.toLowerCase().includes("mango")) {
+                    harga = 10000;
+                } else if (nama.toLowerCase().includes("berry")) {
+                    harga = 15000;
+                } else if (nama.toLowerCase().includes("dragon")) {
+                    harga = 10000;
+                } else {
+                    alert("Produk tidak ditemukan dalam daftar.");
+                    return false;
+                }
+        
+                let total = hitungTotal(harga, jumlah);
+        
+                alert(
+                    "Pemesanan berhasil dikirim!\n" +
+                    "Produk: " + nama + "\n" +
+                    "Jumlah: " + jumlah + "\n" +
+                    "Total Harga: Rp " + total.toLocaleString("id-ID")
+                );
+        
+                let lagi = confirm("Apakah Anda ingin memesan produk lain?");
+                if (lagi) {
+                    document.getElementById("namaProduk").value = "";
+                    document.getElementById("jumlah").value = "";
+                    return false; 
+                } else {
+                    alert("Terima kasih! Pesanan Anda telah dikirim 😊");
+                    return true;
+                }
+            }
+        </script>
+
+        <section>
+            <h3>Kategori Usia Pelanggan</h3>
+            <div class="card">
+            <input type="number" id="usia" placeholder="Masukkan usia anda">
+            <button onclick="cekUsia()">Cek Kategori</button>
+            <p id="kategori-usia"></p>
+
+            <script>
+                function cekUsia(){
+                    let usia = document.getElementById("usia").value;
+                    let kategori = "";
+
+                    if (usia < 13){
+                        kategori = "Anak-anak";
+                    }else if (usia >= 13 && usia <= 17){
+                        kategori = "Remaja";
+                    }else if (usia >= 18 && usia <= 60){
+                        kategori = "Dewasa";
+                    }else if (usia > 60){
+                        kategori = "Lansia";
+                    }else{
+                        kategori = "Usia tidak valid"
+                    }
+                    document.getElementById("kategori-usia").textContent = "Kategori: " + kategori;
+                }
+            </script>
+            </div>
+        </section>
+
+        <section>
+            <h3>Testimoni Pelanggan</h3>
+            <div id="testimoni-list"></div>
+
+            <script>
+                let testimoni = [
+                    { nama: "Alya", isi: "Smoothiesnya segeeerr bangeeett!" },
+                    { nama: "Rafi", isi: "Rasa buahnya enak, nggak terlalu manis juga." },
+                    { nama: "Dina", isi: "Rekomended banget Smoothiesnya!" },
+                    { nama: "Fajar", isi: "Bakal repeat order si ini, applause pokoknya!" },
+                    { nama: "Lina", isi: "Pelayanannya cepat dan ramah." },
+                    { nama: "Elio", isi: "Kemasan aman dan rapi, pengirimannya juga cepat"},
+                ];
+
+                testimoni.forEach(function(item) {
+                    let card = document.createElement("div");
+                    card.className = "testimoni-card";
+                    card.innerHTML = `<h4>${item.nama}</h4><p>"${item.isi}"</p>`;
+                    document.getElementById("testimoni-list").appendChild(card);
+                });
+            </script>
+        </section>
+
+        <h3>Dengarkan Cerita Kami</h3>
+        <audio controls>
+            <source src="audio/aesthetic-sound.mp3" type="audio/mpeg">
+            Audio tidak tersedia di broser Anda.
+        </audio>
+
+        <h3>Lihat Kisah Kami</h3>
+        <video width="220" height="320" controls>
+            <source src="video/smoothies.mp4" type="video/mp4">
+            Browser Anda tidak mendukung video
+        </video>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Smoothies terbaik</p>
+    </footer>
+</body>
+</html>

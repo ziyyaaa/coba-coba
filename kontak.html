@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak - Smoothi:p</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.jpeg" alt="Logo Kopi Nusantara" />
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="tentang.html">Tentang Kami</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="galeri.html">Galeri</a></li>
+                <li><a href="kontak.html">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Smoothi:p</h1>
+    </header>
+
+    <main class="container">
+        <h2>Form Pendafataran Webinar</h2>
+        <p>Silahkan isi formulir berikut untuk mendaftar webinar promosi Smoothi:p. </p>
+
+        <form id="webinarForm" novalidate>
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" name="nama">
+            <p class="error" id="namaError"></p>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <p class="error" id="emailError"></p>
+
+            <label for="hp">Nomor HP:</label>
+            <input type="text" id="hp" name="hp" placeholder="Hanya angka">
+            <p class="error" id="hpError"></p>
+
+            <label for="topik">Pilih Topik Webinar:</label>
+            <select id="topik">
+                <option value="">-- Pilih Topik --</option>
+                <option value="marketing">Strategi Marketing</option>
+                <option value="branding">Branding Produk</option>
+                <option value="jualan">Tips Jualan Online</option>
+            </select>
+            <p class="error" id="topikError"></p>
+
+            <input type="checkbox" id="setuju">
+            <label for="setuju">Syarat setuju dengan syarat & ketentuan</label>
+            <p class="error" id="setujuError"></p>
+
+            <button type="submit">Daftar</button>
+        
+            <p id="successMsg"></p>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Smoothi:p</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById("webinarForm");
+
+        const nama = document.getElementById("nama");
+        const email = document.getElementById("email");
+        const hp = document.getElementById("hp") ;
+        const topik = document.getElementById("topik");
+        const setuju = document.getElementById("setuju");
+
+        const namaError = document.getElementById("namaError");
+        const emailError = document.getElementById("emailError");
+        const hpError = document.getElementById("hpError");
+        const topikError = document.getElementById("topikError");
+        const setujuError = document.getElementById("setujuError");
+
+        const successMsg = document.getElementById("successMsg");
+
+        // Fungsi Validasi
+        function validateNama(){
+            if (nama.value.trim().length < 3){
+                namaError.textContent = "Nama minimal 3 karakter.";
+                nama.classList.add("error-border");
+                return false;
+            }
+            namaError.textContent = "";
+            nama.classList.remove("error-border");
+            return true;
+        }
+
+        function validateEmail(){
+            const emailVal = email.value.trim();
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!pattern.test(emailVal)){
+                emailError.textContent = "Format email tidak valid.";
+                email.classList.add("error-border");
+                return false;
+            }
+
+            if (emailVal.endsWith("@yahoo.com")){
+                emailError.textContent = "Email yahoo.com tidak diperbolehkan.";
+                email.classList.add("error-border");
+                return false;
+            }
+
+            emailError.textContent = "";
+            email.classList.remove("error-border");
+            return true;
+        }
+
+        function validateHP(){
+            if (!/^[0-9]+$/.test(hp.value.trim())){
+                hpError.textContent = "Nomor HP harus angka";
+                hp.classList.add("error-border");
+                return false;
+            }
+            hpError.textContent = "";
+            hp.classList.remove("error-border");
+            return true;
+        }
+
+        function validateTopik() {
+            if (topik.value === "") {
+                topikError.textContent = "Harap pilih topik";
+                topik.classList.add("error-border");
+                return false;
+            }
+            topikError.textContent = "";
+            topik.classList.remove("error-border");
+            return true;
+        }
+
+        function validateSetuju() {
+            if (!setuju.checked) {
+                setujuError.textContent = "Anda harus menyetujui syarat";
+                return false;
+            }
+            setujuError.textContent = "";
+            return true;
+        }
+
+        // Validasi Real-Time
+        nama.addEventListener("input", validateNama);
+        email.addEventListener("input", validateEmail);
+        hp.addEventListener("input", () => {
+            hp.value = hp.value.replace(/[^0-9]/g, "");
+            validateHP();
+        });
+        topik.addEventListener("change", validateTopik);
+        setuju.addEventListener("change", validateSetuju);
+
+        // Validasi saat submit
+         form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let valid =
+                validateNama() &&
+                validateEmail() &&
+                validateHP() &&
+                validateTopik() &&
+                validateSetuju();
+
+            if (valid) {
+                alert("Pendaftaran berhasil!");
+                successMsg.textContent = "Pendaftaran berhasil!";
+                successMsg.classList.add("success");
+                form.reset();
+            } else {
+                successMsg.textContent = "";
+            }
+        });
+    </script>
+</body>
+</html>
